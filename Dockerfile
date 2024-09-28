@@ -1,4 +1,4 @@
-FROM kasmweb/core-ubuntu-jammy:1.15.0
+FROM kasmweb/core-ubuntu-jammy:1.16.0
 USER root
 
 ENV HOME /home/kasm-default-profile
@@ -29,6 +29,14 @@ RUN mkdir -p /home/kasm-user/Desktop/netgear && \
     cd /home/kasm-user/Desktop/netgear/Adj-Noun-Wordlist-Generator-master && \
     g++ adj.cpp -o adj && \
     mv adj /usr/local/bin/adj
+
+RUN wget https://gitlab.com/kalilinux/packages/wordlists/-/raw/kali/master/rockyou.txt.gz?ref_type=heads -O /home/kasm-user/Desktop/rockyou.txt.gz && \
+    gunzip /home/kasm-user/Desktop/rockyou.txt.gz
+
+# Ensure the wordlist is readable by the user
+RUN mkdir -p /usr/local/wordlists && \
+    mv /home/kasm-user/Desktop/rockyou.txt /usr/local/wordlists/rockyou.txt
+
 
 ######### End Customizations ###########
 
