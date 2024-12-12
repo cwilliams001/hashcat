@@ -4,7 +4,7 @@ USER root
 ENV HOME /home/kasm-default-profile
 ENV STARTUPDIR /dockerstartup
 ENV INST_SCRIPTS $STARTUPDIR/install
-ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility,display
+ENV NVIDIA_DRIVER_CAPABILITIES=all
 WORKDIR $HOME
 
 ######### Customize Container Here ###########
@@ -37,7 +37,9 @@ RUN wget https://gitlab.com/kalilinux/packages/wordlists/-/raw/kali/master/rocky
 RUN mkdir -p /usr/local/wordlists && \
     mv /home/kasm-user/Desktop/rockyou.txt /usr/local/wordlists/rockyou.txt
 
-
+# Clean up
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ######### End Customizations ###########
 
 RUN chown 1000:0 $HOME
